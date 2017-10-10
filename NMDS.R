@@ -6,7 +6,7 @@ library(extrafont)
 fonts() 
 loadfonts()
 
-#set meta data
+#set meta data for group specific color
 MyMeta = data.frame(
   sites = c(2,3,4,5,6,7,8,9,10),
   amt = c("YL", "YL", "YL", "ML", "ML", "ML", "SL", "SL", "SL"),
@@ -14,8 +14,9 @@ MyMeta = data.frame(
 
 
 #upload file
-x<- read.delim("RPKM_original",header=TRUE,row.names=1)
-rawdata <- x[,c(4,5,6,7,8,9,10,11,12)]
+file <- "https://raw.githubusercontent.com/sanjaysingh765/NMDS_analysis/master/test_data"
+x<- read.csv(file,header=TRUE,row.names=1)
+rawdata <- x[,c(1,2,3,4,5,6,7,8,9)] #choose column with data
 head(rawdata)
 
 
@@ -70,15 +71,3 @@ theme(legend.text=element_text(size=5))+
 # guides(color = guide_legend(nrow = 1))+
 theme(plot.title = element_text(size = 5, face = "bold") , legend.title=element_text(size=6) , legend.text=element_text(size=5))
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
-
