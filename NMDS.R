@@ -5,48 +5,33 @@ library(extrafont)
 #y
 fonts() 
 loadfonts()
-
 #set meta data for group specific color
 MyMeta = data.frame(
   sites = c(2,3,4,5,6,7,8,9,10),
   amt = c("YL", "YL", "YL", "ML", "ML", "ML", "SL", "SL", "SL"),
   row.names = "sites")
-
-
 #upload file
 file <- "https://raw.githubusercontent.com/sanjaysingh765/NMDS_analysis/master/test_data"
 x<- read.csv(file,header=TRUE,row.names=1)
 rawdata <- x[,c(1,2,3,4,5,6,7,8,9)] #choose column with data
 head(rawdata)
-
-
-
 # Remove all gene which has 0 value in all sample
 all <- apply(rawdata, 1, function(x) all(x==0) )
 newdata <- rawdata[!all,]
 dim(newdata)
-
-
 # remove uninformative genes keep only genes that are expressed in at least 1 count in 2 samples
 counts <- newdata[rowSums(newdata > 1) >= 2,]
 head (counts)
 dim(counts)
-
 #transpose data
 t_x <- t(counts)
-
-
 #log2 conversion
 logx <- log2(t_x+3)
-
 #NMDS analysis
 sol <- metaMDS(logx, distance='bray', k=2, trymax=100)
 head(sol)
-
 #convert NMDS analysis results into dataframe
 NMDS = data.frame(MDS1 = sol$points[,1], MDS2 = sol$points[,2])
-
-
 png("NMDS.png", units="in", family="Times New Roman",  width=2, height=2, res=300, pointsize = 1) #pointsize is font size| increase image size to see the key
 
 #plot the dataframe
